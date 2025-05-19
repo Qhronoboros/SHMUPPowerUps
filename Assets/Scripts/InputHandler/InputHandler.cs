@@ -20,14 +20,15 @@ public class InputHandler
         buttonDictionary.Remove(button);
     }
 
-    public ICommand HandleInput()
+    public List<ICommand> HandleInput()
     {
+        List<ICommand> commandList = new List<ICommand>();
         foreach (KeyCode key in buttonDictionary.Keys)
         {
-            if (Input.GetKeyDown(key)) return GetCommand(key);
+            if (Input.GetKey(key)) commandList.Add(GetCommand(key));
         }
         
-        return null;
+        return commandList;
     }
     
     public ICommand GetCommand(KeyCode button)

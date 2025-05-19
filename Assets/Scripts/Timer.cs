@@ -4,8 +4,8 @@ using UnityEngine;
 public class Timer
 {
     private float _elapsedTime;
-    private bool _counting = false;
     
+    public bool counting = false;
     public float duration = 0.0f;
     
 	public event Action OnTimerEnd;
@@ -18,10 +18,10 @@ public class Timer
 	
     public void StartTimer()
     {
-        if (_counting)
+        if (counting)
             StopTimer();
             
-        _counting = true;
+        counting = true;
     }
     
     public void StopTimer()
@@ -32,13 +32,13 @@ public class Timer
     
     private void ResetTimerValues()
     {
-        _counting = false;
+        counting = false;
         _elapsedTime = 0.0f;
     }
     
     public void CountTimer(float deltaTime)
     {
-        if (!_counting) return;
+        if (!counting) return;
         
         _elapsedTime += deltaTime;
         

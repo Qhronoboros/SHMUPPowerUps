@@ -1,7 +1,10 @@
-public interface IPowerUp : IEntity
+public interface IPowerUp : IEntity, IPrototype, IDestroyable
 {
-    public WeaponStatsDecorator WeaponStatsDecorator { get; }
-    public ShooterLaunch ShooterLaunchApproach { get; }
-    public MovementOverTime MovementOverTimeApproach { get; }
-    public TargetFinding TargetFindingApproach { get; }
+    WeaponStatsDecorator WeaponStatsDecorator { get; }
+    ShooterLaunch ShooterLaunchApproach { get; }
+    MovementOverTime MovementOverTimeApproach { get; }
+    TargetFinding TargetFindingApproach { get; }
+    
+    void ActivatePowerUp();
+    bool CompareSelfWithWeapon(IWeapon weapon);
 }

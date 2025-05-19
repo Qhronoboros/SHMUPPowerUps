@@ -25,7 +25,14 @@ public class InputHandler
         List<ICommand> commandList = new List<ICommand>();
         foreach (KeyCode key in buttonDictionary.Keys)
         {
-            if (Input.GetKey(key)) commandList.Add(GetCommand(key));
+            ICommand command = GetCommand(key);
+            
+            if (Input.GetKeyDown(key) && (command.KeyAction == KeyAction.NONE || command.KeyAction == KeyAction.PRESSED)
+                || Input.GetKey(key) && command.KeyAction == KeyAction.HELD
+                || Input.GetKeyUp(key) && command.KeyAction == KeyAction.RELEASED)
+            {
+                commandList.Add(GetCommand(key));
+            }
         }
         
         return commandList;

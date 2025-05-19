@@ -23,10 +23,9 @@ public class PlayerShip : IPhysics
 
     public void Move(float deltaTime)
     {
-        
     }
 
-    public void FixedUpdate()
+    public void Update(float deltaTime)
     {
         List<ICommand> commandList = _inputHandler.HandleInput();
         
@@ -34,5 +33,7 @@ public class PlayerShip : IPhysics
         {
             command?.Execute(AttachedGameObject);
         }
+        
+        attacker.Update(deltaTime);
     }
 }

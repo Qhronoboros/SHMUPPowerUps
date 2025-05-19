@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 	public static GameManager instance { get; private set;}
 
 	public GameObject playerObjectPrefab;
-	public GameObject projectileObjectPrefab;
+	public GameObject bulletObjectPrefab;
+	public GameObject rocketObjectPrefab;
 	public GameObject PowerUpObjectPrefab;
 
 	public PlayerShip playerShip;
@@ -26,34 +27,48 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-		// Setup Projectiles
-		IProjectile bullet = new Projectile(Instantiate(projectileObjectPrefab), Vector3.zero, Vector3.zero, 1.0f, new ConstantMovement(), null, false);
-		IProjectile rocket = new Projectile(Instantiate(projectileObjectPrefab), Vector3.zero, Vector3.zero, 1.0f, new AcceleratedMovement(), new ClosestTarget(), false);
+		// Setup Projectiles Prototypes
+		IProjectile bullet = new Projectile(Instantiate(bulletObjectPrefab), Vector3.zero, Vector3.zero, 1.0f,
+			MovementOverTime.CONSTANT, TargetFinding.NONE, false);
+		IProjectile rocket = new Projectile(Instantiate(rocketObjectPrefab), Vector3.zero, Vector3.zero, 1.0f,
+			MovementOverTime.ACCELERATED, TargetFinding.CLOSEST, false);
     
-		// Setup Weapons and Attacker
-		List<IWeapon> weapons = new List<IWeapon>
+		// Setup Attacker and Weapons
+        Attacker attacker = new Attacker(1);
+        
+        attacker.AddWeapon(new Weapon(new WeaponStats(1.0f, 2.0f, 1), ShooterLaunch.STRAIGHT, bullet));
+        attacker.AddWeapon(new Weapon(new WeaponStats(2.0f, 0.5f, 1), ShooterLaunch.CIRCLE, rocket));
+        
+        // Setup PowerUp Prototypes
+        List<IPowerUp> PowerUpPrototypes = new List<IPowerUp>()
         {
-            new Weapon(new WeaponStats(1.0f, 2.0f, 1), new StraightShooter(), bullet),
-            new Weapon(new WeaponStats(2.0f, 0.5f, 1), new CircleShooter(), rocket)
+			new PowerUp(Instantiate(PowerUpObjectPrefab), new AttackMultiplierDecorator(0.5f),
+				ShooterLaunch.STRAIGHT, MovementOverTime.CONSTANT, TargetFinding.NONE),
+			new PowerUp(Instantiate(PowerUpObjectPrefab), new AttackSpeedDecorator(1.0f),
+				ShooterLaunch.STRAIGHT, MovementOverTime.CONSTANT, TargetFinding.NONE),
+			new PowerUp(Instantiate(PowerUpObjectPrefab), new ProjectileAmountDecorator(1),
+				ShooterLaunch.STRAIGHT, MovementOverTime.CONSTANT, TargetFinding.NONE),
+				
+			new PowerUp(Instantiate(PowerUpObjectPrefab), new AttackMultiplierDecorator(1.0f),
+				ShooterLaunch.CIRCLE, MovementOverTime.ACCELERATED, TargetFinding.CLOSEST),
+			new PowerUp(Instantiate(PowerUpObjectPrefab), new AttackSpeedDecorator(0.5f),
+				ShooterLaunch.CIRCLE, MovementOverTime.ACCELERATED, TargetFinding.CLOSEST),
+			new PowerUp(Instantiate(PowerUpObjectPrefab), new ProjectileAmountDecorator(1),
+				ShooterLaunch.CIRCLE, MovementOverTime.ACCELERATED, TargetFinding.CLOSEST)
         };
-        
-        Attacker attacker = new Attacker(1, weapons);
-        
+		
         // Setup Player InputHandler
         InputHandler inputHandler = new InputHandler();
-        inputHandler.BindKey(KeyCode.Space, new AttackCommand(attacker));
+        inputHandler.BindKey(KeyCode.Space, new AttackCommand(KeyAction.HELD, attacker));
+        inputHandler.BindKey(KeyCode.S, new SpawnRandomPowerUpCommand(KeyAction.PRESSED, PowerUpPrototypes));
+        inputHandler.BindKey(KeyCode.A, new ActivateRandomPowerUpCommand(KeyAction.PRESSED));
     
 		playerShip = new PlayerShip(Instantiate(playerObjectPrefab), attacker, inputHandler);
     }
 
     private void Update()
     {
-        
-    }
-
-    private void FixedUpdate()
-    {
-        playerShip.FixedUpdate();
+        playerShip.Update(Time.deltaTime);
         
         for (int i = 0; i < projectiles.Count; i++)
         {
@@ -68,5 +83,22 @@ public class GameManager : MonoBehaviour
             
             projectile.Move(Time.deltaTime);
         }
+        
+        for (int i = 0; i < powerUps.Count; i++)
+        {
+			IPowerUp powerUp = powerUps[i];
+			
+            if (powerUp.AttachedGameObject == null)
+            {
+                powerUps.Remove(powerUp);
+                i--;
+                continue;
+            }
+        }
     }
+
+    private void FixedUpdate()
+    {
+    
+	}
 }

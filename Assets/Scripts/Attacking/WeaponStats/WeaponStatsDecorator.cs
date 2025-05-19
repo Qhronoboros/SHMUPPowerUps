@@ -1,4 +1,6 @@
-public abstract class WeaponStatsDecorator : IWeaponStats
+using UnityEngine;
+
+public abstract class WeaponStatsDecorator : IWeaponStats, IPrototype
 {
     protected IWeaponStats _decoratedWeaponStats;
     protected float _attackMultiplier;
@@ -11,13 +13,17 @@ public abstract class WeaponStatsDecorator : IWeaponStats
         this._attackSpeed = attackSpeed;
         this._projectileAmount = projectileAmount;
     }
-    
-    public void Decorate(IWeaponStats weapon)
+
+    public IWeaponStats Decorate(IWeaponStats weaponStats)
     {
-        _decoratedWeaponStats = weapon;
+        Debug.Log($"Using Decorator {GetType()}");
+        _decoratedWeaponStats = weaponStats;
+        return this;
     }
 
     public virtual float GetAttackMultiplier() => _decoratedWeaponStats.GetAttackMultiplier() + _attackMultiplier;
     public virtual float GetAttackSpeed() => _decoratedWeaponStats.GetAttackSpeed() + _attackSpeed;
     public virtual int GetProjectileAmount() => _decoratedWeaponStats.GetProjectileAmount() + _projectileAmount;
+    
+    public abstract IPrototype Clone();
 }

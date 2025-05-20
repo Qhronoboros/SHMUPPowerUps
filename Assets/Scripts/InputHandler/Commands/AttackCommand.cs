@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AttackCommand : ICommand
 {
-    public KeyAction KeyAction { get; private set;}
     private IAttacker _attacker;
+    public KeyAction KeyAction { get; private set;}
 
     public AttackCommand(KeyAction keyAction, IAttacker attacker)
     {

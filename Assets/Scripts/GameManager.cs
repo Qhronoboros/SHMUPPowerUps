@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager instance { get; private set;}
-
 	// Prefabs
 	public GameObject playerObjectPrefab;
 	public GameObject bulletObjectPrefab;
@@ -16,6 +14,9 @@ public class GameManager : MonoBehaviour
 	public List<IPowerUp> powerUps = new List<IPowerUp>();
 	public List<IProjectile> projectiles = new List<IProjectile>();
 
+	// Singleton
+	public static GameManager instance { get; private set;}
+	
 	private void Awake()
 	{
 		if (instance == null)

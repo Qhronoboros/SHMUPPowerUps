@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class PlayerShip : IPhysics
 {
+    // Player Input
+    private InputHandler _inputHandler;
+    
+    public IAttacker attacker;
+    public Faction faction;
+
     public GameObject AttachedGameObject { get; private set; }
     public Vector3 Velocity { get; private set; }
     public Vector3 Acceleration { get; private set; }
     
-    // Player Input
-    private InputHandler _inputHandler;
-    
-    public Attacker attacker;
-    public Faction faction;
-
-    public PlayerShip(GameObject gameObject, Attacker attacker, InputHandler inputHandler)
+    public PlayerShip(GameObject gameObject, IAttacker attacker, InputHandler inputHandler)
     {
         AttachedGameObject = gameObject;
         _inputHandler = inputHandler;

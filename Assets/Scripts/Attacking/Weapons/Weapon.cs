@@ -2,13 +2,13 @@
 using UnityEngine;
 
 public class Weapon : IWeapon
-{
+{    
+    private Timer _shootCooldownTimer;
+
     public IWeaponStats WeaponStats { get; private set; }
     public ShooterLaunch ShooterLaunchApproach { get; private set; }
     public IShooterStrategy ShooterStrategy { get; private set; }
     public IProjectile Projectile { get; private set; }
-    
-    private Timer _shootCooldownTimer;
 
     public Weapon(IWeaponStats weaponStats, ShooterLaunch shooterLaunchApproach, IProjectile projectile)
     {

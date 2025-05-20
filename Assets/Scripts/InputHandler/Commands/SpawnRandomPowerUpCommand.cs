@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SpawnRandomPowerUpCommand : ICommand
 {
-    public KeyAction KeyAction { get; private set;}
     private List<IPowerUp> _prototypePowerUps;
+    public KeyAction KeyAction { get; private set;}
 
     public SpawnRandomPowerUpCommand(KeyAction keyAction, List<IPowerUp> prototypePowerUps)
     {

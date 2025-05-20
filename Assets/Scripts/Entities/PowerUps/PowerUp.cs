@@ -4,7 +4,6 @@ using UnityEngine;
 public class PowerUp : IPowerUp
 {
     public GameObject AttachedGameObject { get; private set; }
-    
     public WeaponStatsDecorator WeaponStatsDecorator { get; private set; }
     public ShooterLaunch ShooterLaunchApproach { get; private set; }
     public MovementOverTime MovementOverTimeApproach { get; private set; }
@@ -23,7 +22,7 @@ public class PowerUp : IPowerUp
     // Gets called when colliding with player (or other methods)
     public void ActivatePowerUp()
     {
-        Attacker attacker = GameManager.instance.playerShip.attacker;
+        IAttacker attacker = GameManager.instance.playerShip.attacker;
     
         // Get a Weapon that has the same enums as the PowerUp
         IWeapon weapon = CompareSelfWithWeaponList(attacker.weapons);

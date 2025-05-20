@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Attacker : IAttacker
 {
+    public List<IWeapon> weapons { get; private set; }
     public float AttackDamage { get; private set; }
-    public List<IWeapon> weapons = new List<IWeapon>();
-    
+
     public Attacker(float attackDamage)
     {
         AttackDamage = attackDamage;

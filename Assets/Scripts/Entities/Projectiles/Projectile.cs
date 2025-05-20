@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Projectile : IProjectile
 {
+    public Timer lifeSpanTimer;
+    
     public GameObject AttachedGameObject { get; private set; }
     public Vector3 Velocity { get; private set; }
     public Vector3 Acceleration { get; private set; }
@@ -12,8 +14,6 @@ public class Projectile : IProjectile
     public ITargetFinderStrategy TargetFinderStrategy { get; private set; }
     public float AttackDamage { get; set; }
 
-    public Timer lifeSpanTimer;
-        
     public Projectile(GameObject gameObject, Vector3 position, Vector3 velocity, float lifeSpan,
         MovementOverTime movementOverTimeApproach, TargetFinding targetFindingApproach, bool active)
     {

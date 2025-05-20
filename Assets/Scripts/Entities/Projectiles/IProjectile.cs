@@ -1,5 +1,3 @@
-using System.Numerics;
-
 public interface IProjectile : IPhysics, IPrototype, IDestroyable
 {
     MovementOverTime MovementOverTimeApproach { get; }

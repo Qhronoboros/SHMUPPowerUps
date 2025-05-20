@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : IProjectile
@@ -50,6 +51,12 @@ public class Projectile : IProjectile
     public void Move(float deltaTime)
     {
         lifeSpanTimer.CountTimer(deltaTime);
+
+        if (TargetFinderStrategy != null)
+        {
+            // IEntity FoundTarget = TargetFinderStrategy.FindTarget(new List<IEntity>(), Faction.PLAYER);
+        }
+        
         MovementStrategy.Move(AttachedGameObject.transform.position, Velocity, Acceleration);
     }
 

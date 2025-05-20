@@ -9,9 +9,9 @@ public abstract class WeaponStatsDecorator : IWeaponStats, IPrototype
     
     protected WeaponStatsDecorator(float attackMultiplier, float attackSpeed, int projectileAmount)
     {
-        this._attackMultiplier = attackMultiplier;
-        this._attackSpeed = attackSpeed;
-        this._projectileAmount = projectileAmount;
+        _attackMultiplier = attackMultiplier;
+        _attackSpeed = attackSpeed;
+        _projectileAmount = projectileAmount;
     }
 
     public IWeaponStats Decorate(IWeaponStats weaponStats)

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +7,7 @@ public class PlayerShip : IPhysics
     public Vector3 Velocity { get; private set; }
     public Vector3 Acceleration { get; private set; }
     
+    // Player Input
     private InputHandler _inputHandler;
     
     public Attacker attacker;
@@ -25,6 +25,7 @@ public class PlayerShip : IPhysics
     {
     }
 
+    // Handle player input and update Attacker
     public void Update(float deltaTime)
     {
         List<ICommand> commandList = _inputHandler.HandleInput();

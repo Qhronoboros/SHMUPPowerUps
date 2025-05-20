@@ -1,12 +1,10 @@
 using System;
-using UnityEngine;
 
 public class Timer
 {
-    private float _elapsedTime;
-    
     public bool counting = false;
     public float duration = 0.0f;
+    public float _elapsedTime;
     
 	public event Action OnTimerEnd;
 	public event Action OnTimerStopped;

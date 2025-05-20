@@ -20,6 +20,7 @@ public class InputHandler
         buttonDictionary.Remove(button);
     }
 
+    // Loop through the keys within the dictionary and determine if the corresponding Key
     public List<ICommand> HandleInput()
     {
         List<ICommand> commandList = new List<ICommand>();
@@ -27,15 +28,19 @@ public class InputHandler
         {
             ICommand command = GetCommand(key);
             
-            if (Input.GetKeyDown(key) && (command.KeyAction == KeyAction.NONE || command.KeyAction == KeyAction.PRESSED)
-                || Input.GetKey(key) && command.KeyAction == KeyAction.HELD
-                || Input.GetKeyUp(key) && command.KeyAction == KeyAction.RELEASED)
-            {
+            if (HasKeyActionOccured(key, command.KeyAction))
                 commandList.Add(GetCommand(key));
-            }
         }
         
         return commandList;
+    }
+    
+    // Checks if the corresponding KeyAction has occured with the given KeyCode
+    private bool HasKeyActionOccured(KeyCode key, KeyAction keyAction)
+    {
+        return Input.GetKeyDown(key) && (keyAction == KeyAction.NONE || keyAction == KeyAction.PRESSED)
+            || Input.GetKey(key) && keyAction == KeyAction.HELD
+            || Input.GetKeyUp(key) && keyAction == KeyAction.RELEASED;
     }
     
     public ICommand GetCommand(KeyCode button)

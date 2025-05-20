@@ -5,11 +5,13 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager instance { get; private set;}
 
+	// Prefabs
 	public GameObject playerObjectPrefab;
 	public GameObject bulletObjectPrefab;
 	public GameObject rocketObjectPrefab;
 	public GameObject PowerUpObjectPrefab;
 
+	// Game Objects
 	public PlayerShip playerShip;
 	public List<IPowerUp> powerUps = new List<IPowerUp>();
 	public List<IProjectile> projectiles = new List<IProjectile>();
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	// Setup game
     private void Start()
     {
 		// Setup Projectiles Prototypes
@@ -63,9 +66,11 @@ public class GameManager : MonoBehaviour
         inputHandler.BindKey(KeyCode.S, new SpawnRandomPowerUpCommand(KeyAction.PRESSED, PowerUpPrototypes));
         inputHandler.BindKey(KeyCode.A, new ActivateRandomPowerUpCommand(KeyAction.PRESSED));
     
+		// Setup Player
 		playerShip = new PlayerShip(Instantiate(playerObjectPrefab), attacker, inputHandler);
     }
 
+	// Update Game Objects
     private void Update()
     {
         playerShip.Update(Time.deltaTime);

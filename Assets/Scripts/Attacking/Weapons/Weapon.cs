@@ -8,7 +8,7 @@ public class Weapon : IWeapon
     public IShooterStrategy ShooterStrategy { get; private set; }
     public IProjectile Projectile { get; private set; }
     
-    public Timer shootCooldownTimer;
+    private Timer _shootCooldownTimer;
 
     public Weapon(IWeaponStats weaponStats, ShooterLaunch shooterLaunchApproach, IProjectile projectile)
     {
@@ -25,9 +25,11 @@ public class Weapon : IWeapon
         
         Projectile = projectile;
         
-        shootCooldownTimer = new Timer(1.0f / WeaponStats.GetAttackSpeed());
+        // Setup timer
+        _shootCooldownTimer = new Timer(1.0f / WeaponStats.GetAttackSpeed());
     }
 
+    // Replaces the WeaponStats with the given WeaponStats
     public void SetWeaponStats(IWeaponStats weaponStats)
     {
         Debug.Log($"Before Stats: AttackMultiplier = {WeaponStats.GetAttackMultiplier()}, "
@@ -39,9 +41,10 @@ public class Weapon : IWeapon
         UpdateShootTimer(weaponStats.GetAttackSpeed());
     }
 
+    // Shoots a projectile when the timer is not running (not on cooldown)
     public void Shoot(GameObject actor, float attackDamage)
     {
-        if (shootCooldownTimer.counting) return;
+        if (_shootCooldownTimer.counting) return;
         
         IProjectile clonedProjectile = Projectile.Clone() as IProjectile;
         clonedProjectile.AttachedGameObject.transform.position = actor.transform.position;
@@ -51,10 +54,12 @@ public class Weapon : IWeapon
         
         ShooterStrategy.SpawnProjectiles(clonedProjectile, WeaponStats.GetProjectileAmount(), actor.transform.forward);
         
-        shootCooldownTimer.StartTimer();
+        _shootCooldownTimer.StartTimer();
     }
     
-    public void Update(float deltaTime) => shootCooldownTimer.CountTimer(deltaTime);
+    // Countdown timer
+    public void Update(float deltaTime) => _shootCooldownTimer.CountTimer(deltaTime);
     
-    private void UpdateShootTimer(float attackSpeed) => shootCooldownTimer.duration = 1.0f / attackSpeed;
+    // Update the duration of the timer using the attackSpeed
+    private void UpdateShootTimer(float attackSpeed) => _shootCooldownTimer.duration = 1.0f / attackSpeed;
 }

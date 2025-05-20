@@ -5,6 +5,7 @@ public class Projectile : IProjectile
     public GameObject AttachedGameObject { get; private set; }
     public Vector3 Velocity { get; private set; }
     public Vector3 Acceleration { get; private set; }
+    
     public MovementOverTime MovementOverTimeApproach { get; private set; }
     public IMovementStrategy MovementStrategy { get; private set; }
     public TargetFinding TargetFindingApproach { get; private set; }
@@ -20,6 +21,7 @@ public class Projectile : IProjectile
         AttachedGameObject.transform.position = position;
         Velocity = velocity;
         
+        // Setup timer
         lifeSpanTimer = new Timer(lifeSpan);
         if (active)
         {

@@ -9,6 +9,7 @@ public class ActivateRandomPowerUpCommand : ICommand
         KeyAction = keyAction;
     }
     
+    // Activate a random PowerUp in the PowerUps list (in the GameManager)
     public void Execute(GameObject actor)
     {
         if (GameManager.instance.powerUps.Count == 0) return;

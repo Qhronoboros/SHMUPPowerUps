@@ -12,6 +12,7 @@ public class SpawnRandomPowerUpCommand : ICommand
         _prototypePowerUps = prototypePowerUps;
     }
 
+    // Clone a random PowerUp from the prototypePowerUps list and add it in the PowerUps list (within the GameManager)
     public void Execute(GameObject actor)
     {
         int randomIndex = Random.Range(0, _prototypePowerUps.Count - 1);
